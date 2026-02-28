@@ -1,0 +1,11 @@
+run = "python run_server.py"
+entrypoint = "run_server.py"
+
+[nix]
+channel = "stable-24_05"
+
+[env]
+OPENFARS_SECRET = "change-this-secret-key"
+
+[deployment]
+run = ["python", "run_server.py"]
