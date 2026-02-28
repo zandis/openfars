@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenFARS — Fully Automated Research System</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔬</text></svg>">
+</head>
+<body>
+  <!-- Top Navigation -->
+  <nav class="topnav">
+    <div class="topnav-left">
+      <span class="logo">OpenFARS</span>
+      <span class="logo-sub">Fully Automated Research System</span>
+    </div>
+    <div class="topnav-right">
+      <button class="nav-btn" data-view="dashboard" title="Dashboard">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </button>
+      <button class="nav-btn" data-view="new-research" title="New Research">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        New Research
+      </button>
+      <button class="nav-btn" data-view="settings" title="Settings">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Settings
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container">
+
+    <!-- ====== DASHBOARD VIEW ====== -->
+    <section id="view-dashboard" class="view active">
+      <div class="view-header">
+        <h1>Research Dashboard</h1>
+        <button class="btn btn-primary" onclick="UI.switchView('new-research')">+ New Research</button>
+      </div>
+      <div id="projects-list" class="projects-grid">
+        <div class="empty-state">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" opacity="0.3"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          <p>No research projects yet</p>
+          <p class="text-muted">Start your first automated research project</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== NEW RESEARCH VIEW ====== -->
+    <section id="view-new-research" class="view">
+      <div class="view-header">
+        <h1>New Research Project</h1>
+      </div>
+
+      <!-- Research Input Form -->
+      <div id="research-form" class="card">
+        <h2>Research Configuration</h2>
+        <div class="form-group">
+          <label for="input-topics">Research Topics</label>
+          <input type="text" id="input-topics" placeholder="e.g. Reinforcement Learning, Large Language Models" value="Reinforcement Learning">
+          <span class="form-hint">Separate multiple topics with commas</span>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="input-model">Model</label>
+            <select id="input-model">
+              <option value="gpt-4o">GPT-4o</option>
+              <option value="gpt-4o-mini">GPT-4o Mini</option>
+              <option value="gpt-4.1">GPT-4.1</option>
+              <option value="gpt-4.1-mini">GPT-4.1 Mini</option>
+              <option value="gpt-4.1-nano">GPT-4.1 Nano</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="input-project-id">Project ID (optional)</label>
+            <input type="text" id="input-project-id" placeholder="Auto-generated if empty">
+          </div>
+        </div>
+        <button id="btn-start" class="btn btn-primary btn-lg" onclick="App.startResearch()">
+          Start Automated Research
+        </button>
+      </div>
+
+      <!-- Pipeline Progress -->
+      <div id="pipeline" class="pipeline hidden">
+        <h2>Research Pipeline</h2>
+        <div class="pipeline-stages">
+          <div class="stage" id="stage-ideation" data-stage="ideation">
+            <div class="stage-header">
+              <div class="stage-indicator">
+                <span class="stage-number">1</span>
+                <span class="stage-status-icon"></span>
+              </div>
+              <div class="stage-info">
+                <h3>Ideation</h3>
+                <p class="stage-desc">Generating research hypothesis</p>
+              </div>
+              <button class="btn btn-sm btn-ghost toggle-output" onclick="UI.toggleStageOutput('ideation')">View Output</button>
+            </div>
+            <div class="stage-output" id="output-ideation"></div>
+          </div>
+
+          <div class="stage" id="stage-planning" data-stage="planning">
+            <div class="stage-header">
+              <div class="stage-indicator">
+                <span class="stage-number">2</span>
+                <span class="stage-status-icon"></span>
+              </div>
+              <div class="stage-info">
+                <h3>Planning</h3>
+                <p class="stage-desc">Creating experiment plan</p>
+              </div>
+              <button class="btn btn-sm btn-ghost toggle-output" onclick="UI.toggleStageOutput('planning')">View Output</button>
+            </div>
+            <div class="stage-output" id="output-planning"></div>
+          </div>
+
+          <div class="stage" id="stage-experiment" data-stage="experiment">
+            <div class="stage-header">
+              <div class="stage-indicator">
+                <span class="stage-number">3</span>
+                <span class="stage-status-icon"></span>
+              </div>
+              <div class="stage-info">
+                <h3>Experiment</h3>
+                <p class="stage-desc">Running experiments</p>
+              </div>
+              <button class="btn btn-sm btn-ghost toggle-output" onclick="UI.toggleStageOutput('experiment')">View Output</button>
+            </div>
+            <div class="stage-output" id="output-experiment"></div>
+          </div>
+
+          <div class="stage" id="stage-writing" data-stage="writing">
+            <div class="stage-header">
+              <div class="stage-indicator">
+                <span class="stage-number">4</span>
+                <span class="stage-status-icon"></span>
+              </div>
+              <div class="stage-info">
+                <h3>Writing</h3>
+                <p class="stage-desc">Generating research paper</p>
+              </div>
+              <button class="btn btn-sm btn-ghost toggle-output" onclick="UI.toggleStageOutput('writing')">View Output</button>
+            </div>
+            <div class="stage-output" id="output-writing"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Final Paper -->
+      <div id="paper-result" class="card hidden">
+        <div class="paper-header">
+          <h2>Generated Paper</h2>
+          <div class="paper-actions">
+            <button class="btn btn-sm" onclick="App.downloadPaper('md')">Download .md</button>
+            <button class="btn btn-sm" onclick="App.downloadPaper('txt')">Download .txt</button>
+            <button class="btn btn-sm" onclick="App.copyPaper()">Copy</button>
+          </div>
+        </div>
+        <div id="paper-content" class="paper-body"></div>
+      </div>
+    </section>
+
+    <!-- ====== SETTINGS VIEW ====== -->
+    <section id="view-settings" class="view">
+      <div class="view-header">
+        <h1>Settings</h1>
+      </div>
+      <div class="card">
+        <h2>API Configuration</h2>
+        <div class="form-group">
+          <label for="input-api-key">OpenAI API Key</label>
+          <div class="input-with-action">
+            <input type="password" id="input-api-key" placeholder="sk-...">
+            <button class="btn btn-sm" onclick="UI.toggleApiKeyVisibility()">Show</button>
+          </div>
+          <span class="form-hint">Your API key is stored locally in your browser and never sent to any server except OpenAI.</span>
+        </div>
+        <div class="form-group">
+          <label for="input-api-base">API Base URL (optional)</label>
+          <input type="text" id="input-api-base" placeholder="https://api.openai.com/v1">
+          <span class="form-hint">Change this to use a compatible API provider (e.g. local LLM, Azure, etc.)</span>
+        </div>
+        <button class="btn btn-primary" onclick="App.saveSettings()">Save Settings</button>
+      </div>
+
+      <div class="card">
+        <h2>Custom Agent Prompts</h2>
+        <p class="text-muted">Customize the system prompts for each research agent.</p>
+        <div class="form-group">
+          <label for="prompt-ideation">Ideation Agent System Prompt</label>
+          <textarea id="prompt-ideation" rows="3">You are an expert AI researcher responsible for generating novel research ideas.</textarea>
+        </div>
+        <div class="form-group">
+          <label for="prompt-planning">Planning Agent System Prompt</label>
+          <textarea id="prompt-planning" rows="3">You are a senior research engineer responsible for planning experiments.</textarea>
+        </div>
+        <div class="form-group">
+          <label for="prompt-experiment">Experiment Agent System Prompt</label>
+          <textarea id="prompt-experiment" rows="3">You are a research engineer who generates detailed experiment code and simulated results based on the experiment plan.</textarea>
+        </div>
+        <div class="form-group">
+          <label for="prompt-writing">Writing Agent System Prompt</label>
+          <textarea id="prompt-writing" rows="3">You are an academic writer. Write a clear and concise research paper.</textarea>
+        </div>
+        <button class="btn btn-primary" onclick="App.saveSettings()">Save Prompts</button>
+      </div>
+
+      <div class="card">
+        <h2>Data Management</h2>
+        <p class="text-muted">All project data is stored in your browser's local storage.</p>
+        <div class="btn-group">
+          <button class="btn" onclick="App.exportAllData()">Export All Data</button>
+          <label class="btn" style="cursor:pointer">
+            Import Data
+            <input type="file" accept=".json" style="display:none" onchange="App.importData(event)">
+          </label>
+          <button class="btn btn-danger" onclick="App.clearAllData()">Clear All Data</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== PROJECT DETAIL VIEW ====== -->
+    <section id="view-project" class="view">
+      <div class="view-header">
+        <button class="btn btn-ghost" onclick="UI.switchView('dashboard')">&larr; Back</button>
+        <h1 id="project-title">Project Details</h1>
+        <div class="btn-group">
+          <button class="btn btn-sm" onclick="App.rerunProject()">Re-run</button>
+          <button class="btn btn-sm btn-danger" onclick="App.deleteProject()">Delete</button>
+        </div>
+      </div>
+      <div id="project-detail-content"></div>
+    </section>
+  </main>
+
+  <!-- Toast Notifications -->
+  <div id="toast-container"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
